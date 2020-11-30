@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;1,700&display=swap');
+@font-face {
+    font-family: "Nunito";
+    src: url("/assets/fonts/Nunito-Regular.ttf") format('truetype')
+}
 
 body {
     font-family: 'Nunito', sans-serif;

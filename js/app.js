@@ -1,5 +1,10 @@
 console.log('PWA is begin ...');
 
+window.addEventListener('load', function () {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+  }
+})
 
 const COLORS = [
   '#c0ffee',
