@@ -6,6 +6,26 @@ window.addEventListener('load', function () {
   }
 })
 
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', function (e) {
+  e.preventDefault()
+  deferredPrompt = e
+  // showInstallPromotion()
+})
+
+const buttonInstall = document.querySelector('#buttonInstall');
+buttonInstall.addEventListener('click', function (e) {
+  // hideMyInstallPromotion()
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(function (choiceResult) {
+    if (choiceResult.outcome === 'accepted')
+      console.log('User accepted the install prompt');
+    else
+      console.log('User dismissed the install prompt');
+
+  })
+})
+
 const COLORS = [
   '#c0ffee',
   '#cacaca',
