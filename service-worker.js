@@ -48,29 +48,37 @@ self.addEventListener('activate', function (event) {
 
 // interrupt
 self.addEventListener('fetch', function (event) {
-  if (event.request.mode === 'navigate')
-    event.respondWith(
-      (async () => {
-        try {
-          const preloadResponse = await event.preloadResponse
+  // if (event.request.mode === 'navigate')
+  //   event.respondWith(
+  //     (async () => {
+  //       try {
+  //         const preloadResponse = await event.preloadResponse
 
-          if (preloadResponse)
-            return preloadResponse
+  //         if (preloadResponse)
+  //           return preloadResponse
 
-          const networkResponse = await fetch(event.request)
-        } catch (err) {
-          console.log("Fetch failed, returning offline page.");
+  //         const networkResponse = await fetch(event.request)
+  //       } catch (err) {
+  //         console.log("Fetch failed, returning offline page.");
 
-          const cache = await caches.open(CACHE_NAME)
-          // If offline, load offiline.html
-          // const cachedResponse = await cache.match(OFFLINE_URL)
+  //         const cache = await caches.open(CACHE_NAME)
+  //         // If offline, load offiline.html
+  //         // const cachedResponse = await cache.match(OFFLINE_URL)
 
-          // If offline, load all assets
-          const cachedResponse = await cache.match(event.request)
+  //         // If offline, load all assets
+  //         const cachedResponse = await cache.match(event.request)
 
-          return cachedResponse || fetch(event.request)
+  //         return cachedResponse || fetch(event.request)
 
-        }
-      })()
-    )
+  //       }
+  //     })()
+  //   )
+
+  event.respondWith((
+    async () => {
+      const res = await caches.match(event.request)
+      return fetch(event.request) || res // Network first
+      // return res || fetch(event.request) // cache first
+    }
+  )())
 })
